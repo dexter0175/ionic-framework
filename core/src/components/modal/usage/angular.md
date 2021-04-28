@@ -36,6 +36,8 @@ export class ModalPage {
 }
 ```
 
+> If you need a wrapper element inside of your modal component, we recommend using a `<div class="ion-page">` so that the component dimensions are still computed properly.
+
 ### Passing Data
 
 During creation of a modal, data can be passed in through the `componentProps`.
@@ -80,7 +82,7 @@ export class ModalPage {
   dismiss() {
     // using the injected ModalController this page
     // can "dismiss" itself and optionally pass back data
-    this.modalCtrl.dismiss({
+    this.modalController.dismiss({
       'dismissed': true
     });
   }
@@ -155,14 +157,14 @@ In most scenarios, using the `ion-router-outlet` element as the `presentingEleme
 ```javascript
 import { ModalController } from '@ionic/angular';
 
-constructor(private modalCtrl: ModalController) {}
+constructor(private modalController: ModalController) {}
 
 async presentModal() {
   const modal = await this.modalController.create({
     component: ModalPage,
     cssClass: 'my-custom-class',
     swipeToClose: true,
-    presentingElement: await this.modalCtrl.getTop() // Get the top-most ion-modal
+    presentingElement: await this.modalController.getTop() // Get the top-most ion-modal
   });
   return await modal.present();
 }

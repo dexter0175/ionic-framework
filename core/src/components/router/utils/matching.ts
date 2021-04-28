@@ -74,24 +74,18 @@ export const matchesPath = (inputPath: string[], chain: RouteChain): RouteChain 
     return chain.map((route, i) => ({
       id: route.id,
       path: route.path,
-      params: mergeParams(route.params, allparams![i])
+      params: mergeParams(route.params, allparams![i]),
+      beforeEnter: route.beforeEnter,
+      beforeLeave: route.beforeLeave
     }));
   }
   return chain;
 };
 
-export const mergeParams = (a: any, b: any): any => {
-  if (!a && b) {
-    return b;
-  } else if (a && !b) {
-    return a;
-  } else if (a && b) {
-    return {
-      ...a,
-      ...b
-    };
-  }
-  return undefined;
+// Merges the route parameter objects.
+// Returns undefined when both parameters are undefined.
+export const mergeParams = (a: {[key: string]: any} | undefined, b: {[key: string]: any} | undefined): {[key: string]: any} | undefined => {
+  return a || b ? { ...a, ...b } : undefined;
 };
 
 export const routerIDsToChain = (ids: RouteID[], chains: RouteChain[]): RouteChain | null => {
